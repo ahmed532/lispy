@@ -1,9 +1,38 @@
 def read():
     try:
-        return raw_input('=> ')
+        s = raw_input('=> ')
     except:
         print('bye!')
         quit()
+    return parse(tokens(s))
+
+def parse(exp):
+    if is_number(exp):
+        return make_number(exp)
+    elif is_symbol(exp):
+        return exp
+    else:
+        return tuple(map(parse, exp))
+
+def is_symbol(exp):
+    return type(exp) is str
+
+def is_number(exp):
+    try:
+        int(exp)
+        return True
+    except:
+        try:
+            float(exp)
+            return True
+        except:
+            return False
+
+def make_number(exp):
+    try:
+        return int(exp)
+    except:
+        return float(exp)
 
 def tokens(l):
     if is_atom(l):
@@ -60,7 +89,7 @@ def make_list(l):
     return tuple(l[1:-1].split())
 
 def leval(l):
-    return tokens(l)
+    return l
 
 def lprint(l):
     print(l)
