@@ -1,5 +1,9 @@
 def read():
-    return raw_input('=> ')
+    try:
+        return raw_input('=> ')
+    except:
+        print('bye!')
+        quit()
 
 def tokens(l):
     if is_atom(l):
@@ -11,12 +15,9 @@ def tokens(l):
 
 def recur_list(l):
     a = l[1:-1].split()
-    print(a)
     t = []
     i = 0
     while i < len(a):
-        print(i, t)
-        raw_input('')
         x = a[i]
         if is_atom(x):
             t.append(x)
@@ -35,12 +36,11 @@ def recur_list(l):
                     s = s + ' ' + x
                     i = i + 1
                     if i == len(a):
-                        print('break')
                         break
                     x = a[i]
                     j = 0
-            t.append(s)
-    return t    
+            t.append(s.strip())
+    return tuple(map(tokens, t))
 
 def free_of(s, c):
     return s.find(c) == -1
