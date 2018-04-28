@@ -6,12 +6,49 @@ def tokens(l):
         return l
     if is_list(l):
         return make_list(l)
+    else:
+        return recur_list(l)
+
+def recur_list(l):
+    a = l[1:-1].split()
+    print(a)
+    t = []
+    i = 0
+    while i < len(a):
+        print(i, t)
+        raw_input('')
+        x = a[i]
+        if is_atom(x):
+            t.append(x)
+            i = i + 1
+        else:
+            p = 1
+            j = 1
+            s = ''
+            while p > 0:
+                if x[j] == '(':
+                    p = p + 1
+                elif x[j] == ')':
+                    p = p - 1
+                j = j + 1
+                if j == len(x):
+                    s = s + ' ' + x
+                    i = i + 1
+                    if i == len(a):
+                        print('break')
+                        break
+                    x = a[i]
+                    j = 0
+            t.append(s)
+    return t    
 
 def free_of(s, c):
     return s.find(c) == -1
 
 def is_atom(l):
-    return free_of(l, ' ')
+    return free_of(l, ' ') and\
+           free_of(l, '(') and\
+           free_of(l, ')')
 
 def is_list(l):
     return l[0] == '(' and\
@@ -21,6 +58,7 @@ def is_list(l):
 
 def make_list(l):
     return tuple(l[1:-1].split())
+
 def leval(l):
     return tokens(l)
 
@@ -28,8 +66,8 @@ def lprint(l):
     print(l)
 
 def loop(f):
-    f()
-    return loop(f)
+    while True:
+        f()
 
 def main():
     loop(lambda:lprint(leval(read())))
