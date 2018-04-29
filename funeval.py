@@ -27,5 +27,5 @@ def is_false(exp):
 	return exp == tuple()
 
 def closure(exp, env):
-	return (exp, env)
+	return (exp, env.copy())
 

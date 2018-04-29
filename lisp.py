@@ -17,11 +17,16 @@ def leval(exp, env):
         return closure(exp, env)
     else:
         return lapply(leval(head(exp), env),\
-         tail(exp))
+         tail(exp), env)
 
-def lapply(fun, params):
-    print(fun, params)
-
+def lapply(fun, params, env):
+    formals = fun[0][1]
+    z = zip(formals, params)
+    env.update(fun[1])
+    e = env.copy()
+    for p in z:
+        e[p[0]] = leval(p[1], env)
+    return leval(fun[0][2], e)
 
 def condeval(exp, env):
     clauses = tail(exp)
