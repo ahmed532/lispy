@@ -29,3 +29,5 @@ def is_false(exp):
 def closure(exp, env):
 	return (exp, env.copy())
 
+def is_define(exp):
+	return head(exp) == 'define'

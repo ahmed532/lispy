@@ -11,6 +11,8 @@ def leval(exp, env):
         return unquote(exp)
     elif is_symbol(exp):
         return env[exp]
+    elif is_define(exp):
+        return define(exp, env)
     elif is_cond(exp):
         return condeval(exp, env)
     elif is_lambda(exp):
@@ -36,6 +38,10 @@ def condeval(exp, env):
         if not is_false(leval(condition, env)):
             return leval(consequence, env)
     return tuple()
+
+def define(exp, env):
+    env[exp[1]] = leval(exp[2], env)
+    return exp[1]
 
 def lprint(l):
     print(l)
