@@ -1,6 +1,6 @@
 def read():
     try:
-        s = raw_input('=> ')
+        s = input('=> ')
     except:
         print('bye!')
         quit()
