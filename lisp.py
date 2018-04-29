@@ -1,6 +1,6 @@
 from parse import read
 from funeval import *
-from lglobals import lglobals
+from lglobals import lglobals, apply_primitive
 
 def leval(exp, env):
     if is_false(exp):
@@ -17,15 +17,21 @@ def leval(exp, env):
         return condeval(exp, env)
     elif is_lambda(exp):
         return closure(exp, env)
+    elif is_primitive(exp):
+        return exp
     else:
         return lapply(leval(head(exp), env),\
          tail(exp), env)
 
 def lapply(fun, params, env):
-    formals = fun[0][1]
-    z = zip(formals, params)
+    if is_primitive(fun):
+        return apply_primitive(fun[1],
+            leval(params[0], env),
+            leval(params[1], env))
     env.update(fun[1])
     e = env.copy()
+    formals = fun[0][1]
+    z = zip(formals, params)
     for p in z:
         e[p[0]] = leval(p[1], env)
     return leval(fun[0][2], e)

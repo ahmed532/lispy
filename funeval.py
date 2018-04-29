@@ -31,3 +31,6 @@ def closure(exp, env):
 
 def is_define(exp):
 	return head(exp) == 'define'
+
+def is_primitive(exp):
+	return head(exp) == '$'
