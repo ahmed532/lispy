@@ -1,7 +1,7 @@
 from parse import read
 from funeval import *
 from lglobals import lglobals, apply_primitive
-
+from functools import partial
 def leval(exp, env):
     if is_false(exp):
         return 'False'
@@ -25,9 +25,10 @@ def leval(exp, env):
 
 def lapply(fun, params, env):
     if is_primitive(fun):
+        leval_e = partial(leval, env=env)
+        args = map(leval_e, params)
         return apply_primitive(fun[1],
-            leval(params[0], env),
-            leval(params[1], env))
+            args)
     env.update(fun[1])
     e = env.copy()
     formals = fun[0][1]

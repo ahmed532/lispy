@@ -1,7 +1,7 @@
 from operator import *
 
-def apply_primitive(f, x, y):
-	return f(x, y)
+def apply_primitive(f, l):
+	return f(*l)
 
 def eqx(p, q):
 	if p != q:
@@ -33,6 +33,12 @@ def gtx(p, q):
 	else:
 		return True
 
+def notx(p):
+	if p == tuple():
+		return True
+	else:
+		return tuple()
+
 def andx(p, q):
 	if p == tuple() or q == tuple():
 		return tuple()
@@ -55,6 +61,7 @@ lglobals = {'+': add,
             '<=': lex,
             '<': ltx,
             '>': gtx,
+            'not': notx,
             'and': andx,
             'or': orx,
             'concat': concat,
