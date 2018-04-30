@@ -4,7 +4,7 @@ from lglobals import lglobals, apply_primitive
 
 def leval(exp, env):
     if is_false(exp):
-        return tuple()
+        return 'False'
     elif is_number(exp):
         return exp
     elif is_quote(exp):
