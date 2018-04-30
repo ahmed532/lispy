@@ -1,10 +1,12 @@
 def read():
     try:
         s = input('=> ')
+        while not balanced_parans(s):
+            s = s + ' ' + input('.... ')
     except:
         print('bye!')
         quit()
-    return parse(tokens(s))
+    return parse(tokens(strip(s)))
 
 def parse(exp):
     if is_number(exp):
@@ -75,17 +77,18 @@ def free_of(s, c):
     return s.find(c) == -1
 
 def strip(s):
-    x = s.strip()
+    s = s.strip()
     i = 0
-    while i < len(x):
+    ns = ''
+    while i < len(s):
         if s[i].isspace():
-            s = s + ' '
+            ns = ns + ' '
             while s[i].isspace():
                 i = i + 1
         else:
-            s = s + x[i]
+            ns = ns + s[i]
             i = i + 1
-    return s
+    return ns
 
 def is_atom(l):
     return free_of(l, ' ') and\
@@ -100,3 +103,7 @@ def is_list(l):
 
 def make_list(l):
     return tuple(l[1:-1].split())
+
+
+def balanced_parans(s):
+    return s.count('(') == s.count(')')
