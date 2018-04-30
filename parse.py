@@ -74,6 +74,19 @@ def recur_list(l):
 def free_of(s, c):
     return s.find(c) == -1
 
+def strip(s):
+    x = s.strip()
+    i = 0
+    while i < len(x):
+        if s[i].isspace():
+            s = s + ' '
+            while s[i].isspace():
+                i = i + 1
+        else:
+            s = s + x[i]
+            i = i + 1
+    return s
+
 def is_atom(l):
     return free_of(l, ' ') and\
            free_of(l, '(') and\
