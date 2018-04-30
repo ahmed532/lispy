@@ -1,8 +1,5 @@
 from operator import *
 
-def apply_primitive(f, l):
-	return f(*l)
-
 def eqx(p, q):
 	if p != q:
 		return tuple()
