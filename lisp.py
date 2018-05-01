@@ -2,6 +2,8 @@ from parse import read
 from funeval import *
 from lglobals import lglobals
 from functools import partial
+from files import fread
+import os
 def leval(exp, env):
     if is_false(exp):
         return 'False'
@@ -17,6 +19,8 @@ def leval(exp, env):
         return condeval(exp, env)
     elif is_lambda(exp):
         return closure(exp, env)
+    elif is_macro(exp):
+        return macroeval(exp, env)
     elif is_primitive(exp):
         return exp
     else:
@@ -46,6 +50,10 @@ def condeval(exp, env):
             return leval(consequence, env)
     return tuple()
 
+def macroeval(exp, env):
+    return exp
+
+
 def apply_primitive(f, p, e):
     leval_e = partial(leval, env=e)
     args = map(leval_e, p)
@@ -62,7 +70,13 @@ def loop(f):
     while True:
         f()
 
+def leval_file(path):
+    f = open(path)
+    for exp in fread(f):
+        lprint(leval(exp, lglobals))
+
 def main():
+    leval_file('sample.s') 
     loop(lambda:lprint(leval(read(), lglobals)))
 
 if __name__ == '__main__':

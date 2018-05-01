@@ -34,3 +34,6 @@ def is_define(exp):
 
 def is_primitive(exp):
 	return head(exp) == '$'
+
+def is_macro(exp):
+	return head(exp) == 'defmacro'

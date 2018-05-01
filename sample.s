@@ -1,3 +1,3 @@
-(define f (lambda (x)
+(define square (lambda (x)
     (* x x)))
 
