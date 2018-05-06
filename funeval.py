@@ -36,4 +36,10 @@ def is_primitive(exp):
 	return head(exp) == '$'
 
 def is_macro(exp):
-	return head(exp) == 'defmacro'
+	return head(exp) == 'macro'
+
+def is_empty(exp):
+	if type(exp) is str:
+	   return len(exp) == 0
+	else:
+		return False

@@ -1,11 +1,13 @@
 def read():
     try:
-        s = input('=> ')
+        s = ignore_comments(strip(input('=> ')))
         while not balanced_parans(s):
-            s = s + ' ' + input('.... ')
+            s = s + ' ' + ignore_comments(strip(input('.... ')))
     except:
         print('bye!')
         quit()
+    if is_empty(s):
+        return read()
     return parse(tokens(strip(s)))
 
 def parse(exp):
@@ -29,6 +31,9 @@ def is_number(exp):
             return True
         except:
             return False
+
+def is_empty(exp):
+    return len(exp) == 0
 
 def make_number(exp):
     try:
@@ -107,3 +112,9 @@ def make_list(l):
 
 def balanced_parans(s):
     return s.count('(') == s.count(')')
+
+def ignore_comments(s):
+    if s.find('//') != -1:
+        return s[:s.find('//')]
+    else:
+        return s

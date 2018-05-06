@@ -4,6 +4,7 @@ from lglobals import lglobals
 from functools import partial
 from files import fread
 import os
+
 def leval(exp, env):
     if is_false(exp):
         return 'False'
@@ -20,7 +21,7 @@ def leval(exp, env):
     elif is_lambda(exp):
         return closure(exp, env)
     elif is_macro(exp):
-        return macroeval(exp, env)
+        return closure(exp, env)
     elif is_primitive(exp):
         return exp
     else:
@@ -53,7 +54,6 @@ def condeval(exp, env):
 def macroeval(exp, env):
     return exp
 
-
 def apply_primitive(f, p, e):
     leval_e = partial(leval, env=e)
     args = map(leval_e, p)
@@ -64,7 +64,10 @@ def define(exp, env):
     return exp[1]
 
 def lprint(l):
-    print(l)
+    if is_empty(l):
+        print(l, end='')
+    else:
+        print(l)
 
 def loop(f):
     while True:
