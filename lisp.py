@@ -32,15 +32,15 @@ def lapply(fun, params, env):
     if is_primitive(fun):
         return apply_primitive(fun,
             params, env)
-    fun_env = fun[1]
-    env.update(fun_env)
+    fe = function_env(fun)
+    env.update(fe)
     e = env.copy()
-    formals = fun[0][1]
+    formals = formal_params(fun)
     z = zip(formals, params)
     for symbol, exp in z:
         e[symbol] = leval(exp, env)
-    fun_body = fun[0][2]
-    return leval(fun_body, e)
+    fbody = function_body(fun)
+    return leval(fbody, e)
 
 def condeval(exp, env):
     clauses = tail(exp)

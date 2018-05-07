@@ -43,3 +43,12 @@ def is_empty(exp):
 	   return len(exp) == 0
 	else:
 		return False
+
+def function_env(f):
+	return f[1]
+
+def formal_params(f):
+	return f[0][1]
+
+def function_body(f):
+	return fun[0][2]
