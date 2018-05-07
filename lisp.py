@@ -1,4 +1,4 @@
-from parse import read
+from parse import read, parse
 from funeval import *
 from lglobals import lglobals
 from functools import partial
@@ -32,6 +32,9 @@ def lapply(fun, params, env):
     if is_primitive(fun):
         return apply_primitive(fun,
             params, env)
+    if is_closure_macro(fun):
+        return apply_macro(fun,
+            params, env)
     fe = function_env(fun)
     env.update(fe)
     e = env.copy()
@@ -51,8 +54,17 @@ def condeval(exp, env):
             return leval(consequence, env)
     return tuple()
 
-def macroeval(exp, env):
-    return exp
+def apply_macro(m, p, env):
+    macro_e = function_env(m)
+    env.update(macro_e)
+    e = env.copy()
+    formals = formal_params(m)
+    z = zip(formals, p)
+    replace_e = {}
+    for symbol, exp in z:
+        replace_e[symbol] = exp
+    fbody = function_body(m)
+    return leval(parse(fbody, replace_e), e)
 
 def apply_primitive(f, p, e):
     leval_e = partial(leval, env=e)

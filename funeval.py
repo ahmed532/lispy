@@ -51,4 +51,8 @@ def formal_params(f):
 	return f[0][1]
 
 def function_body(f):
-	return fun[0][2]
+	return f[0][2]
+
+def is_closure_macro(f):
+	return f[0][0] == 'macro'
+
