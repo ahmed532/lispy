@@ -7,7 +7,7 @@ import sys
 
 def leval(exp, env):
     if is_false(exp):
-        return 'False'
+        return ()
     elif is_number(exp):
         return exp
     elif is_quote(exp):

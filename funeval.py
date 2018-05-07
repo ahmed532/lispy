@@ -21,7 +21,7 @@ def is_lambda(exp):
 	return head(exp) == 'lambda'
 
 def unquote(exp):
-	return exp[1]
+	return tail(exp)
 
 def is_false(exp):
 	return exp == tuple()

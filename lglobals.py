@@ -48,6 +48,15 @@ def orx(p, q):
 	else:
 		return True
 
+def pair(x, y):
+	return (x, y)
+
+def head(z):
+	return z[0]
+
+def tail(z):
+	return z[1:]
+
 lglobals = {'+': add,
             '-': sub,
             '*': mul,
@@ -62,6 +71,9 @@ lglobals = {'+': add,
             'and': andx,
             'or': orx,
             'concat': concat,
+            'pair': pair,
+            'head': head,
+            'tail': tail
 }
 
 l = lglobals.keys()

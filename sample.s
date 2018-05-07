@@ -10,3 +10,15 @@
 
 (define force (lambda (p)
 	(p)))
+
+(define list (macro (l)
+	l))
+
+(define empty? (lambda (l)
+	(= l ())))
+
+(define map (lambda (f l)
+	(cond ((empty? l) ())
+		  (else (pair (f (head l))
+		  	          (map f
+		  	          	   (tail l)))))))
