@@ -3,7 +3,7 @@ from funeval import *
 from lglobals import lglobals
 from functools import partial
 from files import fread
-import os
+import sys
 
 def leval(exp, env):
     if is_false(exp):
@@ -91,7 +91,8 @@ def leval_file(path):
         lprint(leval(exp, lglobals))
 
 def main():
-    leval_file('sample.s') 
+    if len(sys.argv) == 2:
+        leval_file(sys.argv[1]) 
     loop(lambda:lprint(leval(read(), lglobals)))
 
 if __name__ == '__main__':
