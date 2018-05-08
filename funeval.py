@@ -54,7 +54,7 @@ def formal_params(f):
 	return head(tail(head(f)))
 
 def function_body(f):
-	return tail(tail(head(f)))
+	return head(tail(tail(head(f))))
 
 def is_closure_macro(f):
 	return head(head(f)) == 'macro'

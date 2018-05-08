@@ -39,11 +39,16 @@ def lapply(fun, params, env):
     env.update(fe)
     e = env.copy()
     formals = formal_params(fun)
-    z = zip(formals, params)
-    for symbol, exp in z:
-        e[symbol] = leval(exp, env)
+    bind(formal_params(fun), params, e, env)
     fbody = function_body(fun)
     return leval(fbody, e)
+
+def bind(formals, params, e, env):
+    if formals == tuple():
+        return tuple()
+    else:
+        e[head(formals)] = leval(head(params), env)
+        return bind(tail(formals), tail(params), e, env)
 
 def condeval(exp, env):
     if exp == tuple():
