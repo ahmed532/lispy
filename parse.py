@@ -1,3 +1,5 @@
+from funeval import pair, head, tail
+ 
 def read():
     try:
         s = ignore_comments(strip(input('=> ')))
@@ -8,7 +10,7 @@ def read():
         quit()
     if is_empty(s):
         return read()
-    return parse(tokens(strip(s)))
+    return pair_list(parse(tokens(strip(s))))
 
 def parse(exp, env={}):
     if is_number(exp):
@@ -19,7 +21,7 @@ def parse(exp, env={}):
         else:
             return exp
     else:
-        return tuple(map(lambda x: parse(x, env), exp))
+        return tuple(map(lambda x: pair_list(parse(x, env)), exp))
 
 def is_symbol(exp):
     return type(exp) is str
@@ -121,3 +123,13 @@ def ignore_comments(s):
         return s[:s.find('//')]
     else:
         return s
+
+def pair_list(l):
+    if type(l) is tuple:
+        if len(l) == 0:
+            return tuple()
+        else:
+            return pair(head(l), pair_list(l[1:]))
+    else:
+        return l
+

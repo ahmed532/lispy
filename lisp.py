@@ -7,7 +7,7 @@ import sys
 
 def leval(exp, env):
     if is_false(exp):
-        return ()
+        return tuple()
     elif is_number(exp):
         return exp
     elif is_quote(exp):
@@ -68,12 +68,12 @@ def apply_macro(m, p, env):
 
 def apply_primitive(f, p, e):
     leval_e = partial(leval, env=e)
-    args = map(leval_e, p)
-    return f[1](*args)
+    args = tuple(pair_map(leval_e, p))
+    return f[1](*flatten(args))
 
 def define(exp, env):
-    env[exp[1]] = leval(exp[2], env)
-    return exp[1]
+    env[head(tail(exp))] = leval(head(tail(tail(exp))), env)
+    return head(tail(exp))
 
 def lprint(l):
     if is_empty(l):

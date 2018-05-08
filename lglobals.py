@@ -1,4 +1,5 @@
 from operator import *
+from funeval import pair, head, tail
 
 def eqx(p, q):
 	if p != q:
@@ -47,15 +48,6 @@ def orx(p, q):
 		return tuple()
 	else:
 		return True
-
-def pair(x, y):
-	return (x, y)
-
-def head(z):
-	return z[0]
-
-def tail(z):
-	return z[1:]
 
 lglobals = {'+': add,
             '-': sub,
