@@ -12,16 +12,13 @@ def read():
         return read()
     return pair_list(parse(tokens(strip(s))))
 
-def parse(exp, env={}):
+def parse(exp):
     if is_number(exp):
         return make_number(exp)
     elif is_symbol(exp):
-        if env.get(exp) is not None:
-            return env[exp]
-        else:
-            return exp
+        return exp
     else:
-        return tuple(map(lambda x: pair_list(parse(x, env)), exp))
+        return tuple(map(lambda x: pair_list(parse(x)), exp))
 
 def is_symbol(exp):
     return type(exp) is str

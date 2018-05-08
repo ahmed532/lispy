@@ -65,13 +65,19 @@ def apply_macro(m, p, env):
     macro_e = function_env(m)
     env.update(macro_e)
     e = env.copy()
-    formals = formal_params(m)
-    z = zip(formals, p)
     replace_e = {}
-    for symbol, exp in z:
-        replace_e[symbol] = exp
+    assoc(formal_params(m), p, replace_e)
     fbody = function_body(m)
-    return leval(parse(fbody, replace_e), e)
+    return leval(lparse(fbody, replace_e), e)
+
+def lparse(exp, env):
+    if is_symbol(exp):
+        if env.get(exp) is not None:
+            return env[exp]
+        else:
+            return exp
+    else:
+        return tuple(map(lambda x: lparse(x, env), exp))
 
 def apply_primitive(f, p, e):
     leval_e = partial(leval, env=e)

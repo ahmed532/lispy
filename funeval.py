@@ -74,3 +74,10 @@ def pair_map(f, l):
 	else:
 		return pair(f(head(l)), pair_map(f, tail(l)))
 
+def assoc(formals, params, e):
+	if formals == tuple():
+		return tuple()
+	else:
+		e[head(formals)] = head(params)
+		return assoc(tail(formals), tail(params), e)
+
