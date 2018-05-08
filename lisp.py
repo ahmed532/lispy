@@ -17,7 +17,7 @@ def leval(exp, env):
     elif is_define(exp):
         return define(exp, env)
     elif is_cond(exp):
-        return condeval(exp, env)
+        return condeval(tail(exp), env)
     elif is_lambda(exp):
         return closure(exp, env)
     elif is_macro(exp):
@@ -46,13 +46,15 @@ def lapply(fun, params, env):
     return leval(fbody, e)
 
 def condeval(exp, env):
-    clauses = tail(exp)
-    for c in clauses:
-        condition = head(c)
-        consequence = c[1]
-        if not is_false(leval(condition, env)):
+    if exp == tuple():
+        return tuple()
+    else:
+        predicate = head(head(exp))
+        consequence = head(tail(head(exp))) 
+        if not is_false(leval(predicate, env)):
             return leval(consequence, env)
-    return tuple()
+        else:
+            return condeval(tail(exp), env)
 
 def apply_macro(m, p, env):
     macro_e = function_env(m)
