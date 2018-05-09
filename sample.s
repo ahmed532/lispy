@@ -11,9 +11,6 @@
 (define force (lambda (p)
 	(p)))
 
-(define list (macro (l)
-	l))
-
 (define empty? (lambda (l)
 	(= l ())))
 

@@ -81,8 +81,8 @@ def lparse(exp, env):
 
 def apply_primitive(f, p, e):
     leval_e = partial(leval, env=e)
-    args = tuple(pair_map(leval_e, p))
-    return f[1](*flatten(args))
+    args = linearize_pair(pair_map(leval_e, p))
+    return f[1](*args)
 
 def define(exp, env):
     env[head(tail(exp))] = leval(head(tail(tail(exp))), env)

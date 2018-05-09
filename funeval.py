@@ -81,3 +81,9 @@ def assoc(formals, params, e):
 		e[head(formals)] = head(params)
 		return assoc(tail(formals), tail(params), e)
 
+def linearize_pair(l):
+	if l == tuple():
+		return tuple()
+	else:
+		return (head(l), ) + linearize_pair(tail(l))
+
