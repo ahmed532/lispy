@@ -81,7 +81,7 @@ def lparse(exp, env):
 
 def apply_primitive(f, p, e):
     leval_e = partial(leval, env=e)
-    args = linearize_pair(pair_map(leval_e, p))
+    args = linearize_pair(pair_map(leval_e, p)) #This causes problems manipulating lisp style lists!
     return f[1](*args)
 
 def define(exp, env):
