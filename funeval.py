@@ -30,7 +30,7 @@ def is_false(exp):
 	return exp == tuple()
 
 def closure(exp, env):
-	return pair(exp, env.copy())
+	return pair(exp, env)
 
 def is_define(exp):
 	return head(exp) == 'define'
@@ -87,3 +87,18 @@ def linearize_pair(l):
 	else:
 		return (head(l), ) + linearize_pair(tail(l))
 
+def lookup(exp, env):
+    if env is None:
+        print('cannot find', exp)
+        return None
+    if env.get(exp) is not None:
+        return env[exp]
+    else:
+        return lookup(exp, env['$parent'])
+
+
+def predicate(exp):
+    return head(head(exp))
+
+def consequence(exp):
+    return head(tail(head(exp)))

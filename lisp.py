@@ -13,7 +13,7 @@ def leval(exp, env):
     elif is_quote(exp):
         return unquote(exp)
     elif is_symbol(exp):
-        return env[exp]
+        return lookup(exp, env)
     elif is_define(exp):
         return define(exp, env)
     elif is_cond(exp):
@@ -36,9 +36,8 @@ def lapply(fun, params, env):
         return apply_macro(fun,
             params, env)
     fe = function_env(fun)
-    env.update(fe)
-    e = env.copy()
-    formals = formal_params(fun)
+    e = {'$parent': fe,
+         '$name': 'new_env'}
     bind(formal_params(fun), params, e, env)
     fbody = function_body(fun)
     return leval(fbody, e)
@@ -54,10 +53,10 @@ def condeval(exp, env):
     if exp == tuple():
         return tuple()
     else:
-        predicate = head(head(exp))
-        consequence = head(tail(head(exp))) 
-        if not is_false(leval(predicate, env)):
-            return leval(consequence, env)
+        p = predicate(exp)
+        c = consequence(exp)
+        if not is_false(leval(p, env)):
+            return leval(c, env)
         else:
             return condeval(tail(exp), env)
 
@@ -81,7 +80,7 @@ def lparse(exp, env):
 
 def apply_primitive(f, p, e):
     leval_e = partial(leval, env=e)
-    args = linearize_pair(pair_map(leval_e, p)) #This causes problems manipulating lisp style lists!
+    args = linearize_pair(pair_map(leval_e, p))
     return f[1](*args)
 
 def define(exp, env):
@@ -105,10 +104,8 @@ def leval_file(path):
 
 def main():
     if len(sys.argv) == 2:
-        leval_file(sys.argv[1]) 
+        leval_file(sys.argv[1])
     loop(lambda:lprint(leval(read(), lglobals)))
 
 if __name__ == '__main__':
     main()
-
-

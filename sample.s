@@ -17,8 +17,8 @@
 (define map (lambda (f l)
 	(cond ((empty? l) ())
 	      (else (pair (f (head l))
-		          (map f
-		  	       (tail l)))))))
+		                (map f
+		  	                 (tail l)))))))
 
 (define reduce (lambda (f i l)
         (cond ((empty? l) i)
@@ -27,7 +27,7 @@
 
 (define filter (lambda (p l)
         (cond ((empty? l) ())
-              (else (cond ((p (head l)) 
+              (else (cond ((p (head l))
                            (pair (head l)
                                  (filter p (tail l))))
                           (else (filter p (tail l))))))))
@@ -42,14 +42,14 @@
 (define factors (lambda (n)
         (filter (lambda (x)
                     (= (mod n x) 0))
-                (enum 2 n 1))))
+                (enum 1 (+ n 1) 1))))
 
-(define prime (lambda (y)
-        (= (factors y) ())))
+(define prime? (lambda (y)
+        (= (factors y)
+           (pair 1 (pair y ())))))
 
-(define primes_< (lambda (y)
-        (filter prime (enum 2 y 1))))
+(define primes_< (lambda (z)
+        (filter prime? (enum 2 z 1))))
 
-(define sum_primes< (lambda (n)
+(define sum_primes_< (lambda (n)
         (reduce + 0 (primes_< n))))
-

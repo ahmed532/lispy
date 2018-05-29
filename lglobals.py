@@ -75,3 +75,5 @@ for k in l:
 lglobals['False'] = tuple()
 lglobals['else'] = True
 lglobals['True'] = True
+lglobals['$parent'] = None
+lglobals['$name'] = 'lglobals'
