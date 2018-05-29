@@ -53,3 +53,22 @@
 
 (define sum_primes_< (lambda (n)
         (reduce + 0 (primes_< n))))
+
+(define loop (macro (n f)
+        ((define _loop (lambda (i t)
+                 (cond ((= i n) True)
+                       (else (_loop (+ i 1) f)))))
+         0
+         0)))
+
+(define begin (macro (l)
+        ((define _begin (lambda (r t)
+                 (cond ((empty? r) t)
+                       (else (_begin (tail r)
+                                     (eval (head r)))))))
+          (quote l)
+          ())))
+
+(define f (macro l)
+        ((lambda (n) (* n n))
+         ($eval (+ l 1))))

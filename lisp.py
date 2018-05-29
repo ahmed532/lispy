@@ -22,6 +22,8 @@ def leval(exp, env):
         return closure(exp, env)
     elif is_macro(exp):
         return closure(exp, env)
+    elif head(exp) == 'eval':
+        return leval(leval(head(tail(exp)), env), env)
     elif is_primitive(exp):
         return exp
     else:
@@ -62,19 +64,24 @@ def condeval(exp, env):
 
 def apply_macro(m, p, env):
     macro_e = function_env(m)
-    env.update(macro_e)
-    e = env.copy()
-    replace_e = {}
+    replace_e = {'$parent': macro_e,
+                 '$name': 'macro_env'}
     assoc(formal_params(m), p, replace_e)
     fbody = function_body(m)
-    return leval(lparse(fbody, replace_e), e)
+    return leval(lparse(fbody, replace_e), env)
 
 def lparse(exp, env):
+    if type(exp) is not str and type(exp) is not tuple:
+        return exp
     if is_symbol(exp):
         if env.get(exp) is not None:
             return env[exp]
         else:
             return exp
+    elif len(exp) > 0 and head(exp) == '$eval':
+        print(exp)
+        print(env['exp'])
+        return leval(leval(head(tail(exp)), env), env)
     else:
         return tuple(map(lambda x: lparse(x, env), exp))
 
@@ -85,7 +92,7 @@ def apply_primitive(f, p, e):
 
 def define(exp, env):
     env[head(tail(exp))] = leval(head(tail(tail(exp))), env)
-    return head(tail(exp))
+    return env[head(tail(exp))]
 
 def lprint(l):
     if is_empty(l):

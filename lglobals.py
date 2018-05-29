@@ -65,7 +65,8 @@ lglobals = {'+': add,
             'concat': concat,
             'pair': pair,
             'head': head,
-            'tail': tail
+            'tail': tail,
+			'print': print
 }
 
 l = lglobals.keys()
